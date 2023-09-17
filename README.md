@@ -9,5 +9,7 @@
 
 ## Build install (for real!)
 
-1. Local: `ansible-playbook local.yml --ask-vault-pass`
-1. Remote: `curl -fsSL https://raw.githubusercontent.com/nixpig/playbook/main/install.sh | sh`
+Either...
+
+- Local: `ansible-playbook local.yml --ask-vault-pass`
+- Remote: `curl -fsSL https://raw.githubusercontent.com/nixpig/playbook/main/install.sh | sh`
