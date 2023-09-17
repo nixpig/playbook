@@ -1,0 +1,16 @@
+---
+- name: Install patched Operator Mono font
+  ansible.builtin.shell: |
+    eval $(ssh-agent -s) && ssh-add {{ dest_key }} \
+      && git clone git@github.com:nixpig/operator-mono.git ~/.fonts \
+      && fc-cache -fv
+
+- name: Install Nerd font
+  ansible.builtin.shell: |
+    wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/NerdFontsSymbolsOnly.zip \
+      && unzip NerdFontsSymbolsOnly.zip -d ~/.fonts/ \
+      && rm -rf NerdFontsSymbolsOnly.zip \
+      && wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/JetBrainsMono.zip \
+      && unzip JetBrainsMono.zip -d ~/.fonts/ \
+      && rm -rf JetBrainsMono.zip \
+      && fc-cache -fv

@@ -1,0 +1,27 @@
+---
+- name: Install set keymaps (don't forget to set once booted!)
+  become: true
+  shell: |
+    wget https://mirrors.edge.kernel.org/pub/linux/utils/kbd/kbd-2.5.1.tar.gz -O /tmp/kbd-2.5.1.tar.gz \
+      && cd /tmp/ && tar xzf kbd-2.5.1.tar.gz \
+      && mkdir -p /usr/share/keymaps \
+      && cp -Rp /tmp/kbd-2.5.1/data/keymaps/* /usr/share/keymaps/ \
+      && if $(systemd-notify --booted); then localectl set-keymap us; else echo "System not booted using systemd; unable to set keymaps using localectl. Remember to do this later"; fi
+
+- name: Set timezone
+  become: true
+  shell: timedatectl set-timezone Europe/London
+
+- name: Enable gdm on startup
+  become: true
+  ansible.builtin.shell: |
+    systemctl enable gdm
+
+- name: Add Docker group and user
+  become: true
+  ansible.builtin.shell: |
+    systemctl enable --now docker.service \
+      && usermod -aG docker $USER
+
+- name: Install dotfiles
+  shell: "yadm clone {{ DOTFILES_REPO }}"

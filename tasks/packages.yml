@@ -1,0 +1,201 @@
+---
+- name: Install Arch system packages
+  become: true
+  ansible.builtin.package:
+    name:
+      # Audio
+      - alsa-lib
+      - libpulse
+      - libnl
+      - libxcb
+      - pavucontrol
+      - pulseaudio
+      - pulseaudio-alsa
+      # Browsers
+      - chromium
+      # Core
+      - cmake
+      - clang
+      - curl
+      - wget
+      - git
+      - unzip
+      - ninja
+      - ca-certificates
+      - gnupg
+      - alsa-utils
+      - base-devel
+      - bzip2
+      - clang
+      - cmake
+      - cronie
+      - gawk
+      - gcc
+      - gnome-keyring
+      - gvfs
+      - keychain
+      - libxcb
+      - xorg-setxkbmap
+      - xcape
+      - make
+      - openssl
+      - patch
+      - systemd
+      - which
+      - zip
+      - zlib
+      # Database
+      - dbeaver
+      # Desktop
+      - dunst
+      - feh
+      - i3
+      - i3lock
+      - lxappearance
+      - network-manager-applet
+      - noto-fonts-emoji
+      - picom
+      - polybar
+      - python-i3ipc
+      - rofi
+      - unclutter
+      - xdotool
+      - xss-lock
+      # Docker
+      - docker
+      - docker-compose
+      - kubectl
+      # Languages
+      - go
+      - jdk8-openjdk
+      - jdk11-openjdk
+      - jdk17-openjdk
+      - lua
+      - luarocks
+      - maven
+      - nodejs
+      - npm
+      - rust
+      - rustup
+      # Shell
+      - bash
+      - terminator
+      - yadm
+      # Utils
+      - tmux
+      - python-libtmux
+      - exa
+      - fzf
+      - bat
+      - btop
+      - broot
+      - thefuck
+      - httpie
+      - ripgrep
+      - diff-so-fancy
+      - tldr
+      - yank
+      - colordiff
+      - fd
+      - gst-libav
+      - gst-plugins-bad
+      - gst-plugins-ugly
+      - jq
+      - mkcert
+      - nnn
+      - ranger
+      - neofetch
+      - lazygit
+      - net-tools
+      - traceroute
+      - dnsutils
+      - nmap
+      - ueberzug
+      - maim
+
+- name: Install yay AUR package manager
+  ansible.builtin.shell: |
+    git clone https://aur.archlinux.org/yay-bin.git \
+      && cd yay-bin \
+      && makepkg -si --noconfirm \
+      && cd .. \
+      && rm -rf yay-bin
+
+- name: Install packages from AUR
+  shell: |
+    yes | yay -Syu --noconfirm --answerdiff=None azure-cli-bin firefox i3-resurrect lazydocker mongodb-compass mongosh mssql-tools mycli neovim-git neovim-remote splatmoji-git
+
+- name: Install other packages
+  shell: |
+    # ble.sh
+    mkdir -p ~/.local/share/blesh && wget -qO- https://github.com/akinomyoga/ble.sh/releases/download/v0.3.4/ble-0.3.4.tar.xz | tar -C ~/.local/share/blesh --strip-components=1 -xJvf-
+    # mcfly
+    curl -LSfs https://raw.githubusercontent.com/cantino/mcfly/master/ci/install.sh --force | sh -s -- --git cantino/mcfly
+
+- name: Install packages from npm
+  become: true
+  ansible.builtin.shell: |
+    npm install --global \
+    @fsouza/prettierd \
+    @tailwindcss/language-server \
+    eslint \
+    eslint_d \
+    git-cz \
+    n \
+    prettier \
+    redis-cli \
+    tree-sitter-cli \
+    ts-node \
+    typescript \
+    typescript-language-server \
+    vscode-langservers-extracted \
+    yarn
+
+- name: Install NVM
+  shell: |
+    curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | sudo bash
+
+- name: Install tmux plugin manager
+  ansible.builtin.git:
+    repo: https://github.com/tmux-plugins/tpm
+    dest: ~/.tmux/plugins/tpm
+
+- name: Install lazygit
+  become: true
+  shell: |
+    LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*') \
+      && curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz" \
+      && tar xf lazygit.tar.gz lazygit \
+      && install lazygit /usr/local/bin
+
+- name: Install Bitwarden CLI
+  become: true
+  ansible.builtin.shell: |
+    bwVersion="2022.11.0"
+    bwFilename="bw-linux-${bwVersion}.zip"
+    bwZipUri="https://github.com/bitwarden/clients/releases/download/cli-v${bwVersion}/${bwFilename}"
+
+    curl -LJO $bwZipUri  \
+        && unzip ${bwFilename} \
+        && rm -f ${bwFilename} \
+        && chmod 755 bw \
+        && mv bw /usr/local/bin/bw
+
+- name: Install rclone
+  become: true
+  ansible.builtin.shell: |
+    curl https://rclone.org/install.sh | bash
+
+- name: Install Packer
+  ansible.builtin.git:
+    repo: https://github.com/wbthomason/packer.nvim
+    dest: ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+    depth: 1
+
+- name: Install Node.js debugger
+  become: true
+  ansible.builtin.shell: |
+    rm -rf ~/.local/share/nvim/site/pack/packer/opt/vscode-js-debug \
+    && git clone https://github.com/microsoft/vscode-js-debug ~/.local/share/nvim/site/pack/packer/opt/vscode-js-debug \
+    && cd ~/.local/share/nvim/site/pack/packer/opt/vscode-js-debug \
+    && npm install && npm run compile vsDebugServerBundle && mv dist out

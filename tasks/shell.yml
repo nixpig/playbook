@@ -1,0 +1,4 @@
+---
+- name: Ensure Bash is default login shell
+  become: true
+  shell: "chsh -s $(which bash) {{ USER }}"

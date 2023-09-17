@@ -1,0 +1,24 @@
+---
+- name: Install Catppuccin theme for i3
+  ansible.builtin.shell: |
+    mkdir -p ~/.config/i3 \
+      && cd ~/.config/i3 \
+      && wget -O catppuccin-mocha https://raw.githubusercontent.com/catppuccin/i3/main/themes/catppuccin-mocha
+
+- name: Install Catppuccin theme for GTK
+  ansible.builtin.shell: |
+    yay -S --noconfirm --answerdiff=None catppuccin-gtk-theme-mocha
+
+- name: Install Catppuccin theme for bat
+  become: true
+  ansible.builtin.shell: |
+    git clone https://github.com/catppuccin/bat.git \
+      && mkdir -p "$(bat --config-dir)/themes" \
+      && cp -a bat/*.tmTheme "$(bat --config-dir)/themes" \
+      && bat cache --build \
+      && rm -rf bat
+
+- name: Install Catppuccin theme for Rofi
+  ansible.builtin.shell: |
+    mkdir -p ~/.local/share/rofi/themes \
+      && wget https://raw.githubusercontent.com/catppuccin/rofi/main/basic/.local/share/rofi/themes/catppuccin-mocha.rasi -P ~/.local/share/rofi/themes/

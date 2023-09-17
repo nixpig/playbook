@@ -1,0 +1,22 @@
+---
+- hosts: localhost
+  vars:
+    HOME: "{{ lookup('env', 'HOME') }}"
+    USER: "{{ lookup('env', 'USER') }}"
+    SSH_KEY_SRC: ".ssh/id_rsa"
+    SSH_KEY_DST: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa"
+    DOTFILES_REPO: "https://github.com/nixpig/dotfiles.git"
+
+  pre_tasks:
+    - name: Update package cache
+      become: true
+      ansible.builtin.package:
+        update_cache: true
+
+  tasks:
+    - include_tasks: tasks/packages.yml
+    - include_tasks: tasks/shell.yml
+    - include_tasks: tasks/ssh.yml
+    - include_tasks: tasks/config.yml
+    - include_tasks: tasks/fonts.yml
+    - include_tasks: tasks/themes.yml
