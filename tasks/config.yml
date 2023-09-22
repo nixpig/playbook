@@ -10,18 +10,22 @@
 
 - name: Set timezone
   become: true
-  shell: timedatectl set-timezone Europe/London
+  shell: if $(systemd-notify --booted); then timedatectl set-timezone Europe/London; fi
 
 - name: Enable gdm on startup
   become: true
   ansible.builtin.shell: |
-    systemctl enable gdm
+    if $(systemd-notify --booted); then systemctl enable gdm; else echo "System not booted using systemd; unable to enable GDM on startup. Remember to do this later"; fi
 
-- name: Add Docker group and user
+- name: Enable Docker on startup
   become: true
   ansible.builtin.shell: |
-    systemctl enable --now docker.service \
-      && usermod -aG docker $USER
+    if $(systemd-notify --booted); then systemctl enable --now docker.service; else echo "System not booted using systemd; unable to enable Docker on startup. Remember to do this later"; fi
+
+- name: Add user to Docker group
+  become: true
+  ansible.builtin.shell: |
+    usermod -aG docker $USER
 
 - name: Install dotfiles
   shell: "yadm clone {{ DOTFILES_REPO }}"

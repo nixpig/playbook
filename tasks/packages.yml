@@ -1,5 +1,5 @@
 ---
-- name: Install Arch system packages
+- name: Install Arch system packages (batch 1)
   become: true
   ansible.builtin.package:
     name:
@@ -13,42 +13,23 @@
       - pulseaudio-alsa
       # Browsers
       - chromium
-      # Core
-      - cmake
-      - clang
-      - curl
-      - wget
-      - git
-      - unzip
-      - ninja
-      - ca-certificates
-      - gnupg
-      - alsa-utils
-      - base-devel
-      - bzip2
-      - clang
-      - cmake
-      - cronie
-      - gawk
-      - gcc
-      - gnome-keyring
-      - gvfs
-      - keychain
-      - libxcb
-      - xorg-setxkbmap
-      - xcape
-      - make
-      - openssl
-      - patch
-      - systemd
-      - which
-      - zip
-      - zlib
       # Database
       - dbeaver
+      # Email
+      - neomutt
+      # Shell
+      - bash
+      - terminator
+      - yadm
+
+- name: Install Arch system packages (batch 2)
+  become: true
+  ansible.builtin.package:
+    name:
       # Desktop
       - dunst
       - feh
+      - gdm
       - i3
       - i3lock
       - lxappearance
@@ -77,10 +58,48 @@
       - npm
       - rust
       - rustup
-      # Shell
-      - bash
-      - terminator
-      - yadm
+
+- name: Install Arch system packages (batch 3)
+  become: true
+  ansible.builtin.package:
+    name:
+      # Core
+      - cmake
+      - clang
+      - curl
+      - wget
+      - git
+      - unzip
+      - ninja
+      - ca-certificates
+      - gnupg
+      - alsa-utils
+      - base-devel
+      - bzip2
+      - clang
+      - cmake
+      - cronie
+      - gawk
+      - gcc
+      - gnome-keyring
+      - gvfs
+      - keychain
+      - libxcb
+      - xorg-setxkbmap
+      - xcape
+      - make
+      - openssl
+      - patch
+      - systemd
+      - time
+      - which
+      - zip
+      - zlib
+
+- name: Install Arch system packages (batch 4)
+  become: true
+  ansible.builtin.package:
+    name:
       # Utils
       - tmux
       - python-libtmux
@@ -109,6 +128,7 @@
       - net-tools
       - traceroute
       - dnsutils
+      - tcpdump
       - nmap
       - ueberzug
       - maim
@@ -121,9 +141,17 @@
       && cd .. \
       && rm -rf yay-bin
 
-- name: Install packages from AUR
+- name: Install packages from AUR (1)
   shell: |
-    yes | yay -Syu --noconfirm --answerdiff=None azure-cli-bin firefox i3-resurrect lazydocker mongodb-compass mongosh mssql-tools mycli neovim-git neovim-remote splatmoji-git
+    yes | yay -Syu --noconfirm --answerdiff=None azure-cli-bin firefox i3-resurrect lazydocker
+
+- name: Install packages from AUR (2)
+  shell: |
+    yes | yay -Syu --noconfirm --answerdiff=None mongodb-compass mongosh mssql-tools mycli splatmoji-git
+
+- name: Install packages from AUR (3)
+  shell: |
+    yes | yay -Syu --noconfirm --answerdiff=None neovim-git neovim-remote
 
 - name: Install other packages
   shell: |

@@ -1,16 +1,25 @@
 ---
-- name: Install patched Operator Mono font
+- name: Make .fonts directory
   ansible.builtin.shell: |
-    eval $(ssh-agent -s) && ssh-add {{ dest_key }} \
-      && git clone git@github.com:nixpig/operator-mono.git ~/.fonts \
+    mkdir {{ HOME }}/.fonts
+
+- name: Install patched Operator Mono font
+  become: true
+  ansible.builtin.shell: |
+    eval $(ssh-agent -s) && ssh-add {{ SSH_KEY_DST }} \
+      && git clone git@github.com:nixpig/operator-mono-powerline-ligatures.git \
+      && cp -Ra operator-mono-powerline-ligatures/* {{ HOME }}/.fonts/ \
+      && rm -rf operator-mono-powerline-ligatures \
+      && chown {{ USER }}:{{ USER }} {{ HOME }}/.fonts/* \
+      && chmod 644 {{ HOME }}/.fonts/* \
       && fc-cache -fv
 
 - name: Install Nerd font
   ansible.builtin.shell: |
     wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/NerdFontsSymbolsOnly.zip \
-      && unzip NerdFontsSymbolsOnly.zip -d ~/.fonts/ \
+      && unzip -o NerdFontsSymbolsOnly.zip -d ~/.fonts/ \
       && rm -rf NerdFontsSymbolsOnly.zip \
       && wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/JetBrainsMono.zip \
-      && unzip JetBrainsMono.zip -d ~/.fonts/ \
+      && unzip -o JetBrainsMono.zip -d ~/.fonts/ \
       && rm -rf JetBrainsMono.zip \
       && fc-cache -fv
