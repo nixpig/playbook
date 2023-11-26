@@ -15,6 +15,7 @@
       - chromium
       # Database
       - dbeaver
+      - postgresql
       # Email
       - neomutt
       # Shell
@@ -45,7 +46,9 @@
       # Docker
       - docker
       - docker-compose
+      - kompose
       - kubectl
+      - minikube
       # Languages
       - go
       - jdk8-openjdk
@@ -85,6 +88,8 @@
       - gvfs
       - keychain
       - libxcb
+      - linux-tools
+      - lsof
       - xorg-setxkbmap
       - xcape
       - make
@@ -92,6 +97,7 @@
       - patch
       - systemd
       - time
+      - tree
       - which
       - zip
       - zlib
@@ -121,11 +127,14 @@
       - gst-plugins-ugly
       - jq
       - mkcert
+      - certbot
+      - certbot-nginx
       - nnn
       - ranger
       - neofetch
       - lazygit
       - net-tools
+      - whois
       - traceroute
       - dnsutils
       - tcpdump
@@ -143,7 +152,7 @@
 
 - name: Install packages from AUR (1)
   shell: |
-    yes | yay -Syu --noconfirm --answerdiff=None azure-cli-bin firefox i3-resurrect lazydocker
+    yes | yay -Syu --noconfirm --answerdiff=None azure-cli-bin firefox i3-resurrect lazydocker makepasswd
 
 - name: Install packages from AUR (2)
   shell: |
@@ -160,7 +169,7 @@
     # mcfly
     curl -LSfs https://raw.githubusercontent.com/cantino/mcfly/master/ci/install.sh --force | sh -s -- --git cantino/mcfly
 
-- name: Install packages from npm
+- name: Install NPM packages
   become: true
   ansible.builtin.shell: |
     npm install --global \
@@ -178,6 +187,10 @@
     typescript-language-server \
     vscode-langservers-extracted \
     yarn
+
+- name: Install Cargo packages
+  ansible.builtin.shell: |
+    cargo install cargo-edit
 
 - name: Install NVM
   shell: |
