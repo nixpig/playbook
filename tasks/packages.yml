@@ -11,6 +11,11 @@
       - pavucontrol
       - pulseaudio
       - pulseaudio-alsa
+      # Video
+      - v4l2loopback-dkms
+      - v4l2loopback-dc-dkms
+      - v4l2loopback-utils
+      - v4l-utils
       # Browsers
       - chromium
       # Database
@@ -54,6 +59,7 @@
       - jdk8-openjdk
       - jdk11-openjdk
       - jdk17-openjdk
+      - llvm
       - lua
       - luarocks
       - maven
@@ -67,6 +73,8 @@
   ansible.builtin.package:
     name:
       # Core
+      - linux-headers
+      - apache
       - cmake
       - clang
       - curl
@@ -87,6 +95,7 @@
       - gnome-keyring
       - gvfs
       - keychain
+      - libnghttp2
       - libxcb
       - linux-tools
       - lsof
@@ -190,7 +199,7 @@
 
 - name: Install Cargo packages
   ansible.builtin.shell: |
-    cargo install cargo-edit
+    cargo install cargo-edit cargo-tarpaulin cargo-watch cargo-audit cargo-expand
 
 - name: Install NVM
   shell: |
