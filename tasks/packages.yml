@@ -25,6 +25,7 @@
       - neomutt
       # Shell
       - bash
+      - bash-completion
       - terminator
       - yadm
 
@@ -287,7 +288,6 @@
   ansible.builtin.shell: |
     tfVersion="1.7.3"
     tfFilename="terraform_${tfVersion}_linux_amd64.zip"
-    bwZipUri="https://github.com/bitwarden/clients/releases/download/cli-v${bwVersion}/${bwFilename}"
     tfZipUri="https://releases.hashicorp.com/terraform/${tfVersion}/${tfFilename}.zip"
 
     curl -LJO $tfZipUri  \
@@ -296,3 +296,25 @@
         && chmod 755 terraform/terraform \
         && mv terraform/terraform /usr/local/bin/terraform \
         && rm -rf terraform
+
+- name: Download Intellij tarball
+  ansible.builtin.get_url:
+    url: "https://download.jetbrains.com/idea/ideaIU-2023.3.6.tar.gz"
+    dest: "{{ HOME }}/ideaIU.tar.gz"
+
+- name: Create Intellij install directory
+  become: true
+  ansible.builtin.file:
+    state: directory
+    owner: "{{ USER }}"
+    group: "{{ USER }}"
+    path: /opt/idea
+
+- name: Install Intellij
+  become: true
+  ansible.builtin.unarchive:
+    src: "{{ HOME }}/ideaIU.tar.gz"
+    dest: /opt/idea
+    owner: "{{ USER }}"
+    group: "{{ USER }}"
+    extra_opts: [--strip-components=1]
