@@ -11,5 +11,5 @@
 
 Either...
 
-- Local: `ansible-playbook local.yml --ask-vault-pass`
+- Local: `ansible-playbook local.yml --ask-vault-pass --ask-become-pass`
 - Remote: `curl -fsSL https://raw.githubusercontent.com/nixpig/playbook/main/install.sh | sh`
