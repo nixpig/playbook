@@ -14,7 +14,7 @@
   ansible.builtin.shell: |
     git clone https://github.com/catppuccin/bat.git \
       && mkdir -p "$(bat --config-dir)/themes" \
-      && cp -a bat/*.tmTheme "$(bat --config-dir)/themes" \
+      && cp -a bat/themes/*.tmTheme "$(bat --config-dir)/themes" \
       && bat cache --build \
       && rm -rf bat
 

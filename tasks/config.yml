@@ -28,4 +28,4 @@
     usermod -aG docker $USER
 
 - name: Install dotfiles
-  shell: "yadm clone {{ DOTFILES_REPO }}"
+  shell: "yadm clone -f {{ DOTFILES_REPO }}"

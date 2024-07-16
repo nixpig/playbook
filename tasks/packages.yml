@@ -55,6 +55,7 @@
       - kompose
       - kubectl
       - minikube
+      - helm
       # Languages
       - go
       - jdk8-openjdk
@@ -67,10 +68,9 @@
       - maven
       - nodejs
       - npm
-      - rust
       - rustup
-
 - name: Install Arch system packages (batch 3)
+
   become: true
   ansible.builtin.package:
     name:
@@ -167,7 +167,6 @@
       azure-cli-bin \
       firefox \
       i3-resurrect \
-      lazydocker \
       splatmoji-git \
       makepasswd
 
@@ -176,8 +175,7 @@
     yes | yay -Syu --noconfirm --answerdiff=None \
       mongodb-compass \
       mongosh \
-      mssql-tools \
-      mycli
+      mssql-tools
 
 - name: Install packages from AUR (3)
   shell: |
@@ -240,6 +238,10 @@
       && tar xf lazygit.tar.gz lazygit \
       && install lazygit /usr/local/bin
 
+- name: Install Turso CLI
+  ansible.builtin.shell: |
+    curl -sSfL https://get.tur.so/install.sh | bash
+
 - name: Install Bitwarden CLI
   become: true
   ansible.builtin.shell: |
@@ -283,6 +285,10 @@
 
     go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
     go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+
+- name: Install Go packages
+  ansible.builtin.shell: |
+    go install github.com/segmentio/golines@latest
 
 - name: Install Terraform
   ansible.builtin.shell: |
