@@ -145,6 +145,7 @@
       - neofetch
       - lazygit
       - net-tools
+      - inetutils
       - whois
       - traceroute
       - dnsutils
@@ -168,13 +169,12 @@
       firefox \
       i3-resurrect \
       splatmoji-git \
-      makepasswd
+      makepasswd \
+      vhs
 
 - name: Install packages from AUR (2)
   shell: |
     yes | yay -Syu --noconfirm --answerdiff=None \
-      mongodb-compass \
-      mongosh \
       mssql-tools
 
 - name: Install packages from AUR (3)
@@ -260,7 +260,7 @@
   ansible.builtin.shell: |
     curl https://rclone.org/install.sh | bash
 
-- name: Install Packer
+- name: Install Packer (Neovim)
   ansible.builtin.git:
     repo: https://github.com/wbthomason/packer.nvim
     dest: ~/.local/share/nvim/site/pack/packer/start/packer.nvim
