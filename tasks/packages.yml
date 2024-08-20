@@ -11,11 +11,6 @@
       - pavucontrol
       - pulseaudio
       - pulseaudio-alsa
-      # Video
-      - v4l2loopback-dkms
-      - v4l2loopback-dc-dkms
-      - v4l2loopback-utils
-      - v4l-utils
       # Browsers
       - chromium
       # Database
@@ -170,11 +165,7 @@
       i3-resurrect \
       splatmoji-git \
       makepasswd \
-      vhs
-
-- name: Install packages from AUR (2)
-  shell: |
-    yes | yay -Syu --noconfirm --answerdiff=None \
+      vhs \
       mssql-tools
 
 - name: Install packages from AUR (3)
@@ -210,6 +201,10 @@
     typescript-language-server \
     vscode-langservers-extracted \
     yarn
+
+- name: Configure rust toolchain
+  ansible.builtin.shell: |
+    rustup default stable
 
 - name: Install Cargo packages
   ansible.builtin.shell: |

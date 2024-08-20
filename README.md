@@ -4,7 +4,7 @@
 
 ## Test install in Docker container
 
-1. `git clone https://github.com/nixpig/playbook.git && cd $_`
+1. `git clone git@github.com:nixpig/playbook.git && cd $_`
 1. `USERNAME=nixpig ./build-and-run.sh`
 
 ## Build install (for real!)
