@@ -16,7 +16,7 @@
   tasks:
     - include_tasks: tasks/packages.yml
     - include_tasks: tasks/shell.yml
-    - include_tasks: tasks/ssh.yml
+    # - include_tasks: tasks/ssh.yml
     - include_tasks: tasks/config.yml
     - include_tasks: tasks/fonts.yml
     - include_tasks: tasks/themes.yml
