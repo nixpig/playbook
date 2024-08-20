@@ -286,17 +286,17 @@
     go install github.com/segmentio/golines@latest
 
 - name: Install Terraform
+  become: true
   ansible.builtin.shell: |
     tfVersion="1.7.3"
     tfFilename="terraform_${tfVersion}_linux_amd64.zip"
-    tfZipUri="https://releases.hashicorp.com/terraform/${tfVersion}/${tfFilename}.zip"
+    tfZipUri="https://releases.hashicorp.com/terraform/${tfVersion}/${tfFilename}"
 
     curl -LJO $tfZipUri  \
         && unzip ${tfFilename} \
         && rm -f ${tfFilename} \
-        && chmod 755 terraform/terraform \
-        && mv terraform/terraform /usr/local/bin/terraform \
-        && rm -rf terraform
+        && chmod 755 terraform \
+        && mv terraform /usr/local/bin/terraform
 
 - name: Download Intellij tarball
   ansible.builtin.get_url:
