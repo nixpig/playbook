@@ -5,6 +5,7 @@
 1. Add SSH key from local machine to GitHub.
 1. Ensure SSH key in running agent: `eval $(ssh-agent -s) && ssh-add ~/.ssh/id_rsa`
 1. Clone repo: `git clone git@github.com:nixpig/playbook.git && cd $_`
+1. Install pre-requisite packages: `./install.sh`
 1. Run playbook: `ansible-playbook local.yml --ask-vault-pass --ask-become-pass`
 
 

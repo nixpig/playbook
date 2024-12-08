@@ -8,5 +8,3 @@ else
 		sudo pacman -Syu --noconfirm ansible && echo "Ansible installed"
 fi
 
-ansible-pull --checkout main --url=https://github.com/nixpig/playbook.git --ask-vault-pass --ask-become-pass
-
