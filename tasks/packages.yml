@@ -116,6 +116,7 @@
       # Utils
       - tmux
       - python-libtmux
+      - cloc
       - exa
       - cloc
       - fzf
@@ -150,6 +151,7 @@
       - nmap
       - ueberzug
       - maim
+      - virtualbox
 
 - name: Install yay AUR package manager
   ansible.builtin.shell: |
@@ -168,7 +170,8 @@
       splatmoji-git \
       makepasswd \
       vhs \
-      mssql-tools
+      mssql-tools \
+      colormake
 
 - name: Install packages from AUR (3)
   shell: |
