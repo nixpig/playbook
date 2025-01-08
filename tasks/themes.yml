@@ -10,7 +10,6 @@
     yay -S --noconfirm --answerdiff=None catppuccin-gtk-theme-mocha
 
 - name: Install Catppuccin theme for bat
-  become: true
   ansible.builtin.shell: |
     git clone https://github.com/catppuccin/bat.git \
       && mkdir -p "$(bat --config-dir)/themes" \

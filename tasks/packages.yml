@@ -102,6 +102,7 @@
       - openssl
       - patch
       - systemd
+      - strace
       - time
       - tree
       - which
@@ -116,6 +117,7 @@
       - tmux
       - python-libtmux
       - exa
+      - cloc
       - fzf
       - bat
       - btop
