@@ -152,6 +152,12 @@
       - ueberzug
       - maim
       - virtualbox
+      - obs-studio
+      - android-tools
+      - v4l2loopback-dkms
+      - ffmpeg
+      - android-udev
+      - droidcam
 
 - name: Install yay AUR package manager
   ansible.builtin.shell: |
@@ -171,7 +177,8 @@
       makepasswd \
       vhs \
       mssql-tools \
-      colormake
+      colormake \
+      quadcastrgb
 
 - name: Install packages from AUR (3)
   shell: |
