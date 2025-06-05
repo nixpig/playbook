@@ -35,6 +35,7 @@
       - i3
       - i3lock
       - lxappearance
+      - gtk-engines
       - network-manager-applet
       - noto-fonts-emoji
       - picom
@@ -49,8 +50,10 @@
       - docker-compose
       - kompose
       - kubectl
+      - crictl
       - minikube
       - helm
+      - nerdctl
       # Languages
       - go
       - jdk8-openjdk
@@ -179,7 +182,9 @@
       vhs \
       mssql-tools \
       colormake \
-      quadcastrgb
+      quadcastrgb \
+      grpcurl \
+      goreleaser-bin
 
 - name: Install packages from AUR (3)
   shell: |
@@ -213,7 +218,8 @@
     typescript \
     typescript-language-server \
     vscode-langservers-extracted \
-    yarn
+    yarn \
+    sloc
 
 - name: Configure rust toolchain
   ansible.builtin.shell: |
@@ -297,6 +303,7 @@
 - name: Install Go packages
   ansible.builtin.shell: |
     go install github.com/segmentio/golines@latest
+    go install golang.org/x/perf/cmd/benchstat@latest
 
 - name: Install Terraform
   become: true
