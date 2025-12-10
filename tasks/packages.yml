@@ -23,6 +23,7 @@
       - bash-completion
       - terminator
       - yadm
+      - neovim
 
 - name: Install Arch system packages (batch 2)
   become: true
@@ -186,20 +187,10 @@
       grpcurl \
       goreleaser-bin
 
-- name: Install packages from AUR (3)
-  shell: |
-    yes | yay -Syu --noconfirm --answerdiff=None \
-      neovim-git \
-      neovim-remote
-
 - name: Install other packages
   shell: |
     # ble.sh
-    mkdir -p ~/.local/share/blesh && wget -qO- https://github.com/akinomyoga/ble.sh/releases/download/v0.3.4/ble-0.3.4.tar.xz | tar -C ~/.local/share/blesh --strip-components=1 -xJvf-
-    # mcfly
-    curl -LSfs https://raw.githubusercontent.com/cantino/mcfly/master/ci/install.sh --force | sh -s -- --git cantino/mcfly
-    # doppler
-    curl -Ls --tlsv1.2 --proto "=https" --retry 3 https://cli.doppler.com/install.sh | sudo sh
+    mkdir -p ~/.local/share/blesh && wget -qO- https://github.com/akinomyoga/ble.sh/releases/download/v0.4.0-devel3/ble-0.4.0-devel3.tar.xz | tar -C ~/.local/share/blesh --strip-components=1 -xJvf-
 
 - name: Install NPM packages
   become: true
@@ -274,10 +265,10 @@
   ansible.builtin.shell: |
     curl https://rclone.org/install.sh | bash
 
-- name: Install Packer (Neovim)
+- name: Install Ranger DevIcons
   ansible.builtin.git:
-    repo: https://github.com/wbthomason/packer.nvim
-    dest: ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+    repo: https://github.com/alexanderjeurissen/ranger_devicons
+    dest: ~/.config/ranger/plugins/ranger_devicons
     depth: 1
 
 - name: Install Node.js debugger
